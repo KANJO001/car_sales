@@ -1,0 +1,126 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}Sell Your Car - CarSales{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/sell_car.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="sell-page">
+    <div class="container">
+        <div class="sell-header">
+            <h1>Sell Your <span>Car</span></h1>
+            <p>List your car and reach thousands of potential buyers</p>
+        </div>
+
+        <div class="sell-form-wrapper">
+            <form method="POST" enctype="multipart/form-data" id="sellForm">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-circle"></i> Please correct the errors below.
+                    </div>
+                {% endif %}
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.make.id_for_label }}">Make <span class="required">*</span></label>
+                        {{ form.make }}
+                        {% if form.make.errors %}
+                            <div class="field-error">{{ form.make.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.model.id_for_label }}">Model <span class="required">*</span></label>
+                        {{ form.model }}
+                        {% if form.model.errors %}
+                            <div class="field-error">{{ form.model.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.year.id_for_label }}">Year <span class="required">*</span></label>
+                        {{ form.year }}
+                        {% if form.year.errors %}
+                            <div class="field-error">{{ form.year.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.price.id_for_label }}">Price ($) <span class="required">*</span></label>
+                        {{ form.price }}
+                        {% if form.price.errors %}
+                            <div class="field-error">{{ form.price.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.mileage.id_for_label }}">Mileage (km) <span class="required">*</span></label>
+                        {{ form.mileage }}
+                        {% if form.mileage.errors %}
+                            <div class="field-error">{{ form.mileage.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.fuel_type.id_for_label }}">Fuel Type <span class="required">*</span></label>
+                        {{ form.fuel_type }}
+                        {% if form.fuel_type.errors %}
+                            <div class="field-error">{{ form.fuel_type.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.transmission.id_for_label }}">Transmission <span class="required">*</span></label>
+                        {{ form.transmission }}
+                        {% if form.transmission.errors %}
+                            <div class="field-error">{{ form.transmission.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.body_type.id_for_label }}">Body Type <span class="required">*</span></label>
+                        {{ form.body_type }}
+                        {% if form.body_type.errors %}
+                            <div class="field-error">{{ form.body_type.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.description.id_for_label }}">Description <span class="required">*</span></label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <div class="field-error">{{ form.description.errors }}</div>
+                    {% endif %}
+                    <div class="hint">Describe your car's condition, features, and any additional details.</div>
+                </div>
+
+                <div class="mb-4">
+                    <label>{{ form.images.label }}</label>
+                    {{ form.images }}
+                    <div id="imagePreviewContainer" class="image-preview-grid"></div>
+                    <div id="imageFeedback" class="feedback"></div>
+                    <div class="hint">{{ form.images.help_text }}</div>
+                    {% if form.images.errors %}
+                        <div class="field-error">{{ form.images.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <i class="fas fa-plus-circle"></i> List Your Car
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/sell_car.js' %}"></script>
+{% endblock %}

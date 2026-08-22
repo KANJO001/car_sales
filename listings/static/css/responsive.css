@@ -1,0 +1,382 @@
+/* ========================================== */
+/*        RESPONSIVE.CSS – MOBILE FIXES       */
+/* ========================================== */
+
+/* ---------- General Mobile Fixes ---------- */
+@media (max-width: 768px) {
+    /* Increase touch targets */
+    .btn,
+    .btn-contact,
+    .btn-testdrive,
+    .btn-save,
+    .btn-buynow,
+    .btn-submit,
+    .btn-filter,
+    .btn-reset {
+        padding: 0.8rem 1.2rem !important;
+        font-size: 1rem !important;
+        min-height: 48px;
+    }
+
+    /* Improve readability */
+    body {
+        font-size: 16px;
+    }
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Make images responsive */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* ---------- Navigation ---------- */
+@media (max-width: 992px) {
+    .navbar-nav {
+        padding: 0.5rem 0;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 0.6rem 1rem;
+        font-size: 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.4rem;
+    }
+}
+
+/* ---------- Browse Cars Page ---------- */
+@media (max-width: 768px) {
+    /* Filters - stack vertically */
+    .filter-section {
+        padding: 1rem;
+    }
+
+    .filter-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.8rem !important;
+    }
+
+    .filter-group {
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+    .filter-actions {
+        flex-direction: row !important;
+        gap: 0.5rem;
+    }
+
+    .btn-filter,
+    .btn-reset {
+        flex: 1;
+    }
+
+    /* Car Grid - single column */
+    .car-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.2rem;
+    }
+
+    .car-image {
+        height: 180px;
+    }
+
+    .car-title {
+        font-size: 1.1rem;
+    }
+
+    .car-price {
+        font-size: 1.3rem;
+    }
+
+    /* Hero section */
+    .browse-hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 0 1.5rem;
+    }
+
+    .browse-hero-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .browse-hero-stats {
+        width: 100%;
+        justify-content: center;
+        padding: 0.6rem 1rem;
+    }
+
+    .stat-number {
+        font-size: 1.4rem;
+    }
+}
+
+/* ---------- Car Detail Page ---------- */
+@media (max-width: 768px) {
+    .detail-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem;
+    }
+
+    .detail-image .carousel-inner .carousel-item img {
+        height: 250px;
+    }
+
+    .detail-title {
+        font-size: 1.8rem !important;
+    }
+
+    .detail-price {
+        font-size: 1.6rem !important;
+    }
+
+    .detail-specs {
+        gap: 0.5rem;
+    }
+
+    .spec-item {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.7rem;
+    }
+
+    .action-buttons {
+        flex-direction: column !important;
+        gap: 0.6rem;
+    }
+
+    .action-buttons .btn-contact,
+    .action-buttons .btn-testdrive,
+    .action-buttons .btn-save,
+    .action-buttons .btn-buynow {
+        width: 100%;
+        justify-content: center;
+        padding: 0.9rem;
+    }
+
+    .carousel-indicators button {
+        width: 35px !important;
+        height: 28px !important;
+    }
+}
+
+/* ---------- Dashboard Page ---------- */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.8rem;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+
+    .stat-icon {
+        font-size: 1.8rem;
+    }
+
+    .stat-info h3 {
+        font-size: 1.4rem;
+    }
+
+    .dashboard-row {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+
+    .profile-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .profile-avatar {
+        font-size: 3rem;
+    }
+
+    .profile-actions {
+        width: 100%;
+    }
+
+    .profile-actions .btn-primary-sm {
+        width: 100%;
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .listings-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .saved-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* ---------- Profile Page ---------- */
+@media (max-width: 768px) {
+    .profile-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem;
+    }
+
+    .profile-sidebar {
+        position: static;
+        padding: 1.5rem;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-form-section {
+        padding: 1.5rem;
+    }
+
+    .form-actions {
+        flex-direction: column !important;
+    }
+
+    .form-actions .btn-submit,
+    .form-actions .btn-password {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ---------- Sell Car / Edit Car Forms ---------- */
+@media (max-width: 768px) {
+    .sell-form-wrapper,
+    .edit-form-wrapper {
+        padding: 1.2rem !important;
+    }
+
+    .sell-form-wrapper .row,
+    .edit-form-wrapper .row {
+        flex-direction: column;
+    }
+
+    .sell-form-wrapper .col-md-4,
+    .sell-form-wrapper .col-md-6,
+    .edit-form-wrapper .col-md-4,
+    .edit-form-wrapper .col-md-6 {
+        width: 100%;
+        padding: 0;
+    }
+
+    .image-preview-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)) !important;
+    }
+
+    .existing-images-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)) !important;
+    }
+}
+
+/* ---------- Contact Seller / Test Drive Pages ---------- */
+@media (max-width: 768px) {
+    .contact-wrapper,
+    .test-wrapper {
+        padding: 1.2rem !important;
+    }
+
+    .car-summary {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.2rem;
+    }
+
+    .car-image {
+        width: 100%;
+        height: 120px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    .car-specs {
+        justify-content: center;
+    }
+}
+
+/* ---------- Login / Register Pages ---------- */
+@media (max-width: 480px) {
+    .login-container,
+    .register-container {
+        padding: 1.5rem !important;
+        margin: 0 0.5rem;
+    }
+
+    .login-header h2,
+    .register-header h2 {
+        font-size: 1.6rem !important;
+    }
+
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+/* ---------- Saved Cars Page ---------- */
+@media (max-width: 768px) {
+    .saved-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem;
+    }
+
+    .saved-header h1 {
+        font-size: 1.8rem !important;
+    }
+
+    .empty-state {
+        padding: 2rem 0;
+    }
+}
+
+/* ---------- Pagination ---------- */
+@media (max-width: 480px) {
+    .pagination {
+        gap: 0.3rem;
+    }
+
+    .page-link {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+        min-width: 32px;
+    }
+
+    .page-link:first-child,
+    .page-link:last-child {
+        display: none;
+    }
+}
+
+/* ---------- Footer ---------- */
+@media (max-width: 480px) {
+    .footer {
+        text-align: center;
+        padding: 1.5rem 0;
+    }
+
+    .footer .container p {
+        font-size: 0.85rem;
+    }
+}

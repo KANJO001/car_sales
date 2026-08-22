@@ -1,0 +1,998 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}Browse Cars - CarSales{% endblock %}
+
+{% block extra_css %}
+    <style>
+        /* ========================================== */
+        /*        CAR_LIST.CSS – COMPLETE            */
+        /* ========================================== */
+
+        /* ---------- Base ---------- */
+        .browse-page {
+            background: #0a0a0a;
+            min-height: 100vh;
+            padding-bottom: 4rem;
+        }
+
+        /* ---------- Hero with Video ---------- */
+        .browse-hero {
+            position: relative;
+            min-height: 55vh;
+            max-height: 480px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            color: #ffffff;
+            padding: 0 2rem;
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin: 0 0 0.3rem;
+            line-height: 1.1;
+        }
+
+        .hero-content h1 span {
+            color: #f97316;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 500px;
+            margin: 0 auto 1.2rem;
+        }
+
+        .browse-hero-stats {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.8rem;
+            padding: 0.6rem 1.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #f97316;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 0.1rem;
+        }
+
+        .stat-divider {
+            width: 1px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* ---------- Filter Section (with 3D Car on Right) ---------- */
+        .filter-section {
+            background: #141414;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .filter-left {
+            flex: 2;
+            min-width: 0;
+        }
+
+        .filter-right {
+            flex: 0 0 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 180px;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .filter-header h5 {
+            color: #ffffff;
+            font-weight: 700;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .filter-header h5 i {
+            color: #f97316;
+            margin-right: 8px;
+        }
+
+        .filter-results {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+
+        .filter-grid-horizontal {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            flex: 1;
+            min-width: 100px;
+            max-width: 160px;
+        }
+
+        .filter-group label {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .filter-group label i {
+            color: #f97316;
+            margin-right: 4px;
+            font-size: 0.7rem;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            width: 100%;
+            padding: 0.5rem 0.7rem;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: #f97316;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+        }
+
+        .filter-group input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.75rem;
+        }
+
+        .price-range {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .price-range input {
+            width: 100%;
+            padding: 0.5rem 0.4rem;
+            min-width: 40px;
+        }
+
+        .price-range span {
+            color: rgba(255, 255, 255, 0.15);
+            font-weight: 300;
+            font-size: 0.8rem;
+        }
+
+        .filter-actions {
+            display: flex;
+            flex-direction: row;
+            gap: 0.4rem;
+            min-width: 110px;
+            max-width: 150px;
+        }
+
+        .btn-filter,
+        .btn-reset {
+            padding: 0.5rem 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            font-size: 0.8rem;
+            flex: 1;
+            white-space: nowrap;
+        }
+
+        .btn-filter {
+            background: #f97316;
+            color: #000000;
+            flex: 2;
+        }
+
+        .btn-filter:hover {
+            background: #ea580c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex: 1;
+            min-width: 36px;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        /* ---------- 3D Car (Right side) ---------- */
+        .car-3d-container {
+            width: 160px;
+            height: 120px;
+            perspective: 600px;
+        }
+
+        .car-3d {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCar 8s infinite linear;
+        }
+
+        .car-3d-face {
+            position: absolute;
+            width: 160px;
+            height: 120px;
+            background: #1a1a1a;
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+        }
+
+        .car-3d-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .car-3d-face.front  { transform: rotateY(0deg) translateZ(80px); }
+        .car-3d-face.back   { transform: rotateY(180deg) translateZ(80px); }
+        .car-3d-face.left   { transform: rotateY(-90deg) translateZ(80px); }
+        .car-3d-face.right  { transform: rotateY(90deg) translateZ(80px); }
+        .car-3d-face.top    { transform: rotateX(90deg) translateZ(80px); }
+        .car-3d-face.bottom { transform: rotateX(-90deg) translateZ(80px); }
+
+        @keyframes rotateCar {
+            0%   { transform: rotateY(0deg) rotateX(10deg); }
+            25%  { transform: rotateY(90deg) rotateX(5deg); }
+            50%  { transform: rotateY(180deg) rotateX(10deg); }
+            75%  { transform: rotateY(270deg) rotateX(5deg); }
+            100% { transform: rotateY(360deg) rotateX(10deg); }
+        }
+
+        /* ---------- Car Grid ---------- */
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .car-card {
+            background: #141414;
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardFadeIn 0.6s ease forwards;
+        }
+
+        .car-card:nth-child(1) { animation-delay: 0.05s; }
+        .car-card:nth-child(2) { animation-delay: 0.10s; }
+        .car-card:nth-child(3) { animation-delay: 0.15s; }
+        .car-card:nth-child(4) { animation-delay: 0.20s; }
+        .car-card:nth-child(5) { animation-delay: 0.25s; }
+        .car-card:nth-child(6) { animation-delay: 0.30s; }
+        .car-card:nth-child(7) { animation-delay: 0.35s; }
+        .car-card:nth-child(8) { animation-delay: 0.40s; }
+        .car-card:nth-child(9) { animation-delay: 0.45s; }
+        .car-card:nth-child(10) { animation-delay: 0.50s; }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .car-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: rgba(249,115,22,0.15);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+
+        .car-image {
+            position: relative;
+            height: 210px;
+            overflow: hidden;
+            background: #1a1a1a;
+        }
+
+        .car-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .car-card:hover .car-image img {
+            transform: scale(1.05);
+        }
+
+        .car-badges {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .badge {
+            padding: 0.15rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: inline-block;
+        }
+
+        .badge.featured {
+            background: rgba(249,115,22,0.15);
+            color: #f97316;
+            border: 1px solid rgba(249,115,22,0.15);
+        }
+
+        .badge.status.available {
+            background: rgba(40,167,69,0.12);
+            color: #28a745;
+            border: 1px solid rgba(40,167,69,0.12);
+        }
+
+        .badge.status.sold {
+            background: rgba(220,53,69,0.12);
+            color: #dc3545;
+            border: 1px solid rgba(220,53,69,0.12);
+        }
+
+        .car-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .car-card:hover .car-overlay {
+            opacity: 1;
+        }
+
+        .btn-quick-view {
+            padding: 0.5rem 1.8rem;
+            background: #f97316;
+            color: #000000;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+        }
+
+        .car-card:hover .btn-quick-view {
+            transform: translateY(0);
+        }
+
+        .btn-quick-view:hover {
+            background: #ffffff;
+            transform: scale(1.05);
+        }
+
+        .car-body {
+            padding: 1.2rem 1.5rem 1.5rem;
+        }
+
+        .car-title-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.3rem;
+        }
+
+        .car-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .car-title span {
+            color: #f97316;
+        }
+
+        .car-year {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.2);
+            font-weight: 500;
+        }
+
+        .car-specs {
+            display: flex;
+            gap: 0.8rem;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.75rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .car-specs i {
+            color: #f97316;
+            margin-right: 4px;
+            font-size: 0.65rem;
+        }
+
+        .car-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .car-price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #f97316;
+        }
+
+        .btn-view {
+            padding: 0.3rem 1rem;
+            background: rgba(249,115,22,0.08);
+            color: #f97316;
+            border: 1px solid rgba(249,115,22,0.1);
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-view i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-view:hover {
+            background: #f97316;
+            color: #000000;
+            border-color: #f97316;
+        }
+
+        .btn-view:hover i {
+            transform: translateX(4px);
+        }
+
+        /* ---------- Empty State ---------- */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 0;
+            color: #ffffff;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: rgba(255,255,255,0.03);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .empty-state p {
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-primary-sm {
+            display: inline-block;
+            padding: 0.6rem 2rem;
+            background: #f97316;
+            color: #000000;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-sm:hover {
+            background: #ea580c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(249,115,22,0.2);
+        }
+
+        /* ---------- Pagination ---------- */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-top: 3rem;
+        }
+
+        .page-link {
+            padding: 0.5rem 0.9rem;
+            min-width: 36px;
+            text-align: center;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 6px;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .page-link:hover {
+            background: rgba(249,115,22,0.08);
+            border-color: #f97316;
+            color: #ffffff;
+        }
+
+        .page-link.active {
+            background: #f97316;
+            color: #000000;
+            border-color: #f97316;
+            font-weight: 700;
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 1024px) {
+            .filter-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .filter-right {
+                flex: 1;
+                min-height: 140px;
+                width: 100%;
+            }
+            .car-3d-container {
+                width: 140px;
+                height: 105px;
+            }
+            .car-3d-face {
+                width: 140px;
+                height: 105px;
+            }
+            .car-3d-face.front  { transform: rotateY(0deg) translateZ(70px); }
+            .car-3d-face.back   { transform: rotateY(180deg) translateZ(70px); }
+            .car-3d-face.left   { transform: rotateY(-90deg) translateZ(70px); }
+            .car-3d-face.right  { transform: rotateY(90deg) translateZ(70px); }
+            .car-3d-face.top    { transform: rotateX(90deg) translateZ(70px); }
+            .car-3d-face.bottom { transform: rotateX(-90deg) translateZ(70px); }
+        }
+
+        @media (max-width: 768px) {
+            .browse-hero {
+                min-height: 40vh;
+                max-height: 400px;
+                border-radius: 12px;
+            }
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            .hero-content p {
+                font-size: 0.85rem;
+            }
+            .browse-hero-stats {
+                gap: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+            .stat-number {
+                font-size: 1.3rem;
+            }
+            .filter-grid-horizontal {
+                flex-direction: column;
+            }
+            .filter-group {
+                min-width: 100%;
+                max-width: 100%;
+            }
+            .filter-actions {
+                min-width: 100%;
+                max-width: 100%;
+            }
+            .car-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.2rem;
+            }
+            .car-image {
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .browse-hero {
+                min-height: 35vh;
+                max-height: 320px;
+                border-radius: 10px;
+            }
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+            .hero-content p {
+                font-size: 0.75rem;
+                margin-bottom: 0.8rem;
+            }
+            .browse-hero-stats {
+                gap: 0.8rem;
+                padding: 0.4rem 1rem;
+            }
+            .stat-number {
+                font-size: 1.1rem;
+            }
+            .stat-label {
+                font-size: 0.45rem;
+            }
+            .stat-divider {
+                height: 20px;
+            }
+            .car-grid {
+                grid-template-columns: 1fr;
+            }
+            .car-image {
+                height: 200px;
+            }
+            .filter-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<section class="browse-page">
+
+    <!-- ========================================== -->
+    <!-- HERO WITH VIDEO BACKGROUND                 -->
+    <!-- ========================================== -->
+    <div class="browse-hero">
+        <video class="hero-video" autoplay loop muted playsinline>
+            <source src="/media/videos/12125602_3840_2160_30fps.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <h1>Find Your <span>Dream Car</span></h1>
+            <p>Explore our curated collection of premium vehicles</p>
+        </div>
+
+        <div class="browse-hero-stats">
+            <div class="stat-item">
+                <span class="stat-number">{{ cars.paginator.count }}</span>
+                <span class="stat-label">Available Cars</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">Brands</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- FILTER SECTION WITH 3D CAR ON RIGHT       -->
+    <!-- ========================================== -->
+    <div class="filter-section">
+        <div class="filter-row">
+            <!-- Left: Filters -->
+            <div class="filter-left">
+                <div class="filter-header">
+                    <h5><i class="fas fa-sliders-h"></i> Filters</h5>
+                    <span class="filter-results">{{ cars.paginator.count }} cars found</span>
+                </div>
+                <form method="GET" action="{% url 'car_list' %}" id="filterForm">
+                    <div class="filter-grid-horizontal">
+                        <!-- Search -->
+                        <div class="filter-group">
+                            <label><i class="fas fa-search"></i> Search</label>
+                            <input type="text" name="q" placeholder="Make, model or year..." value="{{ request.GET.q }}">
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="filter-group">
+                            <label><i class="fas fa-dollar-sign"></i> Price Range</label>
+                            <div class="price-range">
+                                <input type="number" name="min_price" placeholder="Min" value="{{ request.GET.min_price }}">
+                                <span>—</span>
+                                <input type="number" name="max_price" placeholder="Max" value="{{ request.GET.max_price }}">
+                            </div>
+                        </div>
+
+                        <!-- Fuel Type -->
+                        <div class="filter-group">
+                            <label><i class="fas fa-gas-pump"></i> Fuel</label>
+                            <select name="fuel_type">
+                                <option value="">All Types</option>
+                                <option value="petrol" {% if request.GET.fuel_type == 'petrol' %}selected{% endif %}>Petrol</option>
+                                <option value="diesel" {% if request.GET.fuel_type == 'diesel' %}selected{% endif %}>Diesel</option>
+                                <option value="electric" {% if request.GET.fuel_type == 'electric' %}selected{% endif %}>Electric</option>
+                                <option value="hybrid" {% if request.GET.fuel_type == 'hybrid' %}selected{% endif %}>Hybrid</option>
+                            </select>
+                        </div>
+
+                        <!-- Transmission -->
+                        <div class="filter-group">
+                            <label><i class="fas fa-cog"></i> Transmission</label>
+                            <select name="transmission">
+                                <option value="">All</option>
+                                <option value="manual" {% if request.GET.transmission == 'manual' %}selected{% endif %}>Manual</option>
+                                <option value="automatic" {% if request.GET.transmission == 'automatic' %}selected{% endif %}>Automatic</option>
+                                <option value="cvt" {% if request.GET.transmission == 'cvt' %}selected{% endif %}>CVT</option>
+                                <option value="dsg" {% if request.GET.transmission == 'dsg' %}selected{% endif %}>DSG</option>
+                            </select>
+                        </div>
+
+                        <!-- Body Type -->
+                        <div class="filter-group">
+                            <label><i class="fas fa-car"></i> Body</label>
+                            <select name="body_type">
+                                <option value="">All</option>
+                                <option value="sedan" {% if request.GET.body_type == 'sedan' %}selected{% endif %}>Sedan</option>
+                                <option value="suv" {% if request.GET.body_type == 'suv' %}selected{% endif %}>SUV</option>
+                                <option value="coupe" {% if request.GET.body_type == 'coupe' %}selected{% endif %}>Coupe</option>
+                                <option value="convertible" {% if request.GET.body_type == 'convertible' %}selected{% endif %}>Convertible</option>
+                                <option value="hatchback" {% if request.GET.body_type == 'hatchback' %}selected{% endif %}>Hatchback</option>
+                                <option value="truck" {% if request.GET.body_type == 'truck' %}selected{% endif %}>Truck</option>
+                                <option value="van" {% if request.GET.body_type == 'van' %}selected{% endif %}>Van</option>
+                                <option value="luxury" {% if request.GET.body_type == 'luxury' %}selected{% endif %}>Luxury</option>
+                            </select>
+                        </div>
+
+                        <!-- Sort -->
+                        <div class="filter-group">
+                            <label><i class="fas fa-sort"></i> Sort By</label>
+                            <select name="sort">
+                                <option value="-created_at" {% if request.GET.sort == '-created_at' %}selected{% endif %}>Newest First</option>
+                                <option value="price" {% if request.GET.sort == 'price' %}selected{% endif %}>Price: Low → High</option>
+                                <option value="-price" {% if request.GET.sort == '-price' %}selected{% endif %}>Price: High → Low</option>
+                                <option value="-year" {% if request.GET.sort == '-year' %}selected{% endif %}>Year: Newest</option>
+                                <option value="mileage" {% if request.GET.sort == 'mileage' %}selected{% endif %}>Mileage: Low</option>
+                            </select>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="filter-group filter-actions">
+                            <button type="submit" class="btn-filter">
+                                <i class="fas fa-search"></i> Apply
+                            </button>
+                            <a href="{% url 'car_list' %}" class="btn-reset">
+                                <i class="fas fa-undo"></i>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right: 3D Car Animation -->
+            <div class="filter-right">
+                <div class="car-3d-container">
+                    <div class="car-3d">
+                        <div class="car-3d-face front">
+                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=300&h=200&fit=crop&crop=center" alt="Car">
+                        </div>
+                        <div class="car-3d-face back">
+                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=300&h=200&fit=crop&crop=center" alt="Car">
+                        </div>
+                        <div class="car-3d-face left">
+                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=300&h=200&fit=crop&crop=center" alt="Car">
+                        </div>
+                        <div class="car-3d-face right">
+                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=300&h=200&fit=crop&crop=center" alt="Car">
+                        </div>
+                        <div class="car-3d-face top">
+                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=300&h=200&fit=crop&crop=center" alt="Car">
+                        </div>
+                        <div class="car-3d-face bottom">
+                            <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=300&h=200&fit=crop&crop=center" alt="Car">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- CAR GRID                                  -->
+    <!-- ========================================== -->
+    <div class="car-grid">
+        {% for car in cars %}
+            <div class="car-card">
+                <div class="car-image">
+                    {% if car.images.all %}
+                        <img src="{{ car.images.first.image.url }}" alt="{{ car.make }} {{ car.model }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=600&h=400&fit=crop" alt="No image">
+                    {% endif %}
+                    <div class="car-badges">
+                        {% if car.is_featured %}
+                            <span class="badge featured">⭐ Featured</span>
+                        {% endif %}
+                        <span class="badge status {% if car.is_available %}available{% else %}sold{% endif %}">
+                            {% if car.is_available %}Available{% else %}Sold{% endif %}
+                        </span>
+                    </div>
+                    <div class="car-overlay">
+                        <a href="{% url 'car_detail' car.id %}" class="btn-quick-view">
+                            <i class="fas fa-eye"></i> Quick View
+                        </a>
+                    </div>
+                </div>
+                <div class="car-body">
+                    <div class="car-title-group">
+                        <h5 class="car-title">{{ car.make }} <span>{{ car.model }}</span></h5>
+                        <span class="car-year">{{ car.year }}</span>
+                    </div>
+                    <div class="car-specs">
+                        <span><i class="fas fa-tachometer-alt"></i> {{ car.mileage }} km</span>
+                        <span><i class="fas fa-gas-pump"></i> {{ car.get_fuel_type_display }}</span>
+                        <span><i class="fas fa-cog"></i> {{ car.get_transmission_display }}</span>
+                    </div>
+                    <div class="car-footer">
+                        <span class="car-price">${{ car.price }}</span>
+                        <a href="{% url 'car_detail' car.id %}" class="btn-view">
+                            View Details <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-state">
+                <i class="fas fa-car empty-icon"></i>
+                <h3>No cars match your criteria</h3>
+                <p>Try adjusting your filters or search terms.</p>
+                <a href="{% url 'car_list' %}" class="btn-primary-sm">Clear All Filters</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PAGINATION                                -->
+    <!-- ========================================== -->
+    {% if cars.has_other_pages %}
+        <div class="pagination">
+            {% if cars.has_previous %}
+                <a href="?page=1{{ request.GET.urlencode|cut:'page='|cut:'&page=' }}" class="page-link">&laquo; First</a>
+                <a href="?page={{ cars.previous_page_number }}{{ request.GET.urlencode|cut:'page='|cut:'&page=' }}" class="page-link">‹ Prev</a>
+            {% endif %}
+
+            {% for num in cars.paginator.page_range %}
+                {% if cars.number == num %}
+                    <span class="page-link active">{{ num }}</span>
+                {% elif num > cars.number|add:'-3' and num < cars.number|add:'3' %}
+                    <a href="?page={{ num }}{{ request.GET.urlencode|cut:'page='|cut:'&page=' }}" class="page-link">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if cars.has_next %}
+                <a href="?page={{ cars.next_page_number }}{{ request.GET.urlencode|cut:'page='|cut:'&page=' }}" class="page-link">Next ›</a>
+                <a href="?page={{ cars.paginator.num_pages }}{{ request.GET.urlencode|cut:'page='|cut:'&page=' }}" class="page-link">Last &raquo;</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/car_list_new.js' %}"></script>
+    <script>
+        // Optional: add a scroll-reveal for stats or any extra JS
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏎️ Car List page loaded with 3D car on the right!');
+        });
+    </script>
+{% endblock %}

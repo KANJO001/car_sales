@@ -1,0 +1,181 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - CarSales{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-page">
+    <div class="container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1>Welcome, <span>{{ user.username }}</span></h1>
+            <p>Manage your cars and wishlist from your dashboard</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-car"></i></div>
+                <div class="stat-info">
+                    <h3>{{ user_cars|length }}</h3>
+                    <p>Listings</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-heart"></i></div>
+                <div class="stat-info">
+                    <h3>{{ saved_cars|length }}</h3>
+                    <p>Saved</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-user"></i></div>
+                <div class="stat-info">
+                    <h3>Member</h3>
+                    <p>Since {{ user.date_joined|date:"M Y" }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile & Actions Row -->
+        <div class="dashboard-row">
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                    <h4>{{ user.username }}</h4>
+                    <p><i class="fas fa-envelope"></i> {{ user.email }}</p>
+                    <p><i class="fas fa-calendar-alt"></i> Joined {{ user.date_joined|date:"F j, Y" }}</p>
+                </div>
+                <div class="profile-actions">
+                    <a href="{% url 'sell_car' %}" class="btn-primary-sm">
+                        <i class="fas fa-plus-circle"></i> List a Car
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h5>Quick Actions</h5>
+                <div class="action-grid">
+                    <a href="{% url 'sell_car' %}" class="action-btn">
+                        <i class="fas fa-plus-circle"></i> Sell Car
+                    </a>
+                    <a href="{% url 'car_list' %}" class="action-btn">
+                        <i class="fas fa-search"></i> Browse Cars
+                    </a>
+                    <a href="{% url 'saved_cars' %}" class="action-btn">
+                        <i class="fas fa-heart"></i> Wishlist
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Car Listings -->
+        <div class="listings-section">
+            <div class="section-header">
+                <h3><i class="fas fa-car"></i> My Listings</h3>
+                <a href="{% url 'sell_car' %}" class="btn-link">+ Add New</a>
+            </div>
+
+            {% if user_cars %}
+                <div class="listings-grid">
+                    {% for car in user_cars %}
+                    <div class="listing-card">
+                        <div class="listing-image">
+                            {% if car.image %}
+                                <img src="{{ car.image.url }}" alt="{{ car.make }} {{ car.model }}">
+                            {% else %}
+                                <div class="no-image">No Image</div>
+                            {% endif %}
+                            <span class="listing-status {% if car.is_available %}available{% else %}sold{% endif %}">
+                                {% if car.is_available %}Available{% else %}Sold{% endif %}
+                            </span>
+                        </div>
+                        <div class="listing-body">
+                            <h5>{{ car.make }} {{ car.model }}</h5>
+                            <p class="specs">{{ car.year }} • {{ car.mileage }} km</p>
+                            <div class="price">${{ car.price }}</div>
+                            <div class="listing-actions">
+                                <a href="{% url 'car_detail' car.id %}" class="btn-view">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'edit_car' car.id %}" class="btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button class="btn-delete" data-id="{{ car.id }}" data-name="{{ car.make }} {{ car.model }}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                        <p class="no-items">You haven't listed any cars yet.</p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-car empty-icon"></i>
+                    <h4>No listings yet</h4>
+                    <p>Start selling your car by creating a listing.</p>
+                    <a href="{% url 'sell_car' %}" class="btn-primary-sm">List Your Car</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Saved Cars -->
+        <div class="saved-section">
+            <div class="section-header">
+                <h3><i class="fas fa-heart"></i> Saved Cars</h3>
+            </div>
+
+            {% if saved_cars %}
+                <div class="saved-grid">
+                    {% for saved in saved_cars %}
+                    <div class="saved-card">
+                        <div class="saved-image">
+                            {% if saved.car.image %}
+                                <img src="{{ saved.car.image.url }}" alt="{{ saved.car.make }} {{ saved.car.model }}">
+                            {% else %}
+                                <div class="no-image">No Image</div>
+                            {% endif %}
+                        </div>
+                        <div class="saved-body">
+                            <h5>{{ saved.car.make }} {{ saved.car.model }}</h5>
+                            <p class="price">${{ saved.car.price }}</p>
+                            <div class="saved-actions">
+                                <a href="{% url 'car_detail' saved.car.id %}" class="btn-view-sm">View</a>
+                                <button class="btn-remove-saved" data-id="{{ saved.car.id }}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                        <p class="no-items">You haven't saved any cars yet.</p>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-heart empty-icon"></i>
+                    <h4>No saved cars</h4>
+                    <p>Browse cars and save your favorites.</p>
+                    <a href="{% url 'car_list' %}" class="btn-primary-sm">Browse Cars</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

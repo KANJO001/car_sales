@@ -1,0 +1,142 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}My Profile - CarSales{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="profile-page">
+    <div class="container">
+        <div class="profile-header">
+            <h1>My <span>Profile</span></h1>
+            <p>Manage your account information</p>
+        </div>
+
+        <div class="profile-wrapper">
+            <div class="profile-grid">
+                <!-- Left Column: Profile Picture -->
+                <div class="profile-sidebar">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar">
+                            {% if user.profile.profile_picture %}
+                                <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}">
+                            {% else %}
+                                <div class="avatar-placeholder">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <h3 class="profile-username">{{ user.username }}</h3>
+                        <p class="profile-email">{{ user.email }}</p>
+                        <p class="profile-joined">
+                            <i class="fas fa-calendar-alt"></i> Joined {{ user.date_joined|date:"F j, Y" }}
+                        </p>
+                    </div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">{{ user.cars.count }}</span>
+                            <span class="stat-label">Listings</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <span class="stat-number">{{ user.saved_cars.count }}</span>
+                            <span class="stat-label">Saved</span>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'dashboard' %}" class="btn-back-dashboard">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+
+                <!-- Right Column: Edit Form -->
+                <div class="profile-form-section">
+                    <h2>Edit Profile</h2>
+                    <form method="POST" enctype="multipart/form-data" id="profileForm">
+                        {% csrf_token %}
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <div class="form-group">
+                            <label for="id_username"><i class="fas fa-user"></i> Username</label>
+                            {{ user_form.username }}
+                            {% if user_form.username.errors %}
+                                <div class="field-error">{{ user_form.username.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_email"><i class="fas fa-envelope"></i> Email</label>
+                            {{ user_form.email }}
+                            {% if user_form.email.errors %}
+                                <div class="field-error">{{ user_form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_first_name"><i class="fas fa-user-tag"></i> First Name</label>
+                            {{ user_form.first_name }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_last_name"><i class="fas fa-user-tag"></i> Last Name</label>
+                            {{ user_form.last_name }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_phone"><i class="fas fa-phone"></i> Phone Number</label>
+                            {{ profile_form.phone }}
+                            {% if profile_form.phone.errors %}
+                                <div class="field-error">{{ profile_form.phone.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_address"><i class="fas fa-map-marker-alt"></i> Address</label>
+                            {{ profile_form.address }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_bio"><i class="fas fa-info-circle"></i> Bio</label>
+                            {{ profile_form.bio }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_profile_picture"><i class="fas fa-camera"></i> Profile Picture</label>
+                            {{ profile_form.profile_picture }}
+                            <div id="imagePreview" class="image-preview"></div>
+                            <div id="imageFeedback" class="feedback"></div>
+                            <div class="hint">Upload a profile picture (JPEG, PNG, max 2MB)</div>
+                            {% if profile_form.profile_picture.errors %}
+                                <div class="field-error">{{ profile_form.profile_picture.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit" id="submitBtn">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/profile.js' %}"></script>
+{% endblock %}

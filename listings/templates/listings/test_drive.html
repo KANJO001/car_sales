@@ -1,0 +1,97 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}Test Drive - {{ car.make }} {{ car.model }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/test_drive.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="test-drive-page">
+    <div class="container">
+        <div class="test-header">
+            <h1>Schedule a <span>Test Drive</span></h1>
+            <p>Request a test drive for this car</p>
+        </div>
+
+        <div class="test-wrapper">
+            <!-- Car Info -->
+            <div class="car-info">
+                {% if car.image %}
+                    <img src="{{ car.image.url }}" alt="{{ car.make }} {{ car.model }}">
+                {% else %}
+                    <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=200&h=150&fit=crop&crop=center" alt="{{ car.make }} {{ car.model }}">
+                {% endif %}
+                <div>
+                    <div class="car-title">{{ car.make }} <span>{{ car.model }}</span></div>
+                    <div class="car-price">${{ car.price }}</div>
+                    <div class="seller-name"><i class="fas fa-user-circle"></i> Seller: {{ car.seller.username }}</div>
+                </div>
+            </div>
+
+            <!-- Test Drive Form -->
+            <form method="POST" id="testDriveForm">
+                {% csrf_token %}
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="name">Your Name <span class="required">*</span></label>
+                        <input type="text" name="name" id="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="email">Your Email <span class="required">*</span></label>
+                        <input type="email" name="email" id="email" placeholder="john@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" name="phone" id="phone" placeholder="+1 234 567 890">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="preferred_date">Preferred Date <span class="required">*</span></label>
+                        <input type="date" name="preferred_date" id="preferred_date" required>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="preferred_time">Preferred Time <span class="required">*</span></label>
+                        <select name="preferred_time" id="preferred_time" required>
+                            <option value="">Select time</option>
+                            <option value="09:00">09:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="13:00">01:00 PM</option>
+                            <option value="14:00">02:00 PM</option>
+                            <option value="15:00">03:00 PM</option>
+                            <option value="16:00">04:00 PM</option>
+                            <option value="17:00">05:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Additional Message</label>
+                    <textarea name="message" id="message" rows="4" placeholder="Any special requests or questions..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <i class="fas fa-calendar-check"></i> Request Test Drive
+                </button>
+            </form>
+
+            <a href="{% url 'car_detail' car.id %}" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Car Details
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/test_drive.js' %}"></script>
+{% endblock %}

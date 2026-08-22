@@ -1,0 +1,159 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}Edit Car - CarSales{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/edit_car.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="edit-page">
+    <div class="container">
+        <div class="edit-header">
+            <h1>Edit Your <span>Car</span></h1>
+            <p>Update your car listing details</p>
+        </div>
+
+        <div class="edit-form-wrapper">
+            <form method="POST" enctype="multipart/form-data" id="editForm">
+                {% csrf_token %}
+
+                {% if form.errors %}
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-circle"></i> Please correct the errors below.
+                    </div>
+                {% endif %}
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.make.id_for_label }}">Make <span class="required">*</span></label>
+                        {{ form.make }}
+                        {% if form.make.errors %}
+                            <div class="field-error">{{ form.make.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.model.id_for_label }}">Model <span class="required">*</span></label>
+                        {{ form.model }}
+                        {% if form.model.errors %}
+                            <div class="field-error">{{ form.model.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.year.id_for_label }}">Year <span class="required">*</span></label>
+                        {{ form.year }}
+                        {% if form.year.errors %}
+                            <div class="field-error">{{ form.year.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.price.id_for_label }}">Price ($) <span class="required">*</span></label>
+                        {{ form.price }}
+                        {% if form.price.errors %}
+                            <div class="field-error">{{ form.price.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.mileage.id_for_label }}">Mileage (km) <span class="required">*</span></label>
+                        {{ form.mileage }}
+                        {% if form.mileage.errors %}
+                            <div class="field-error">{{ form.mileage.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.fuel_type.id_for_label }}">Fuel Type <span class="required">*</span></label>
+                        {{ form.fuel_type }}
+                        {% if form.fuel_type.errors %}
+                            <div class="field-error">{{ form.fuel_type.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.transmission.id_for_label }}">Transmission <span class="required">*</span></label>
+                        {{ form.transmission }}
+                        {% if form.transmission.errors %}
+                            <div class="field-error">{{ form.transmission.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="{{ form.body_type.id_for_label }}">Body Type <span class="required">*</span></label>
+                        {{ form.body_type }}
+                        {% if form.body_type.errors %}
+                            <div class="field-error">{{ form.body_type.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.is_available.id_for_label }}">Status</label>
+                        {{ form.is_available }}
+                        {% if form.is_available.errors %}
+                            <div class="field-error">{{ form.is_available.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ form.description.id_for_label }}">Description <span class="required">*</span></label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <div class="field-error">{{ form.description.errors }}</div>
+                    {% endif %}
+                    <div class="hint">Describe your car's condition, features, and any additional details.</div>
+                </div>
+
+                <!-- Existing Images -->
+                {% if existing_images %}
+                    <div class="mb-4">
+                        <label>Current Images</label>
+                        <div class="existing-images-grid">
+                            {% for image in existing_images %}
+                                <div class="existing-image-item" id="image-{{ image.id }}">
+                                    <img src="{{ image.image.url }}" alt="Car image">
+                                    <button type="button" class="btn-remove-existing" data-id="{{ image.id }}">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Upload New Images -->
+                <div class="mb-4">
+                    <label>{{ form.images.label }}</label>
+                    {{ form.images }}
+                    <div id="imagePreviewContainer" class="image-preview-grid"></div>
+                    <div id="imageFeedback" class="feedback"></div>
+                    <div class="hint">{{ form.images.help_text }}</div>
+                    {% if form.images.errors %}
+                        <div class="field-error">{{ form.images.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fas fa-save"></i> Update Car
+                    </button>
+                    <a href="{% url 'dashboard' %}" class="btn-cancel">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/edit_car.js' %}"></script>
+{% endblock %}

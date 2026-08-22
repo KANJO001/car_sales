@@ -1,0 +1,109 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}Contact Seller - {{ car.make }} {{ car.model }}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/contact_seller.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="contact-page">
+    <div class="container">
+        <!-- Header -->
+        <div class="contact-header">
+            <div class="header-icon">
+                <i class="fas fa-paper-plane"></i>
+            </div>
+            <h1>Contact <span>Seller</span></h1>
+            <p>Send a message to the seller of this car</p>
+        </div>
+
+        <div class="contact-wrapper">
+            <!-- Car Summary Card -->
+            <div class="car-summary">
+                <div class="car-image">
+                    {% if car.image %}
+                        <img src="{{ car.image.url }}" alt="{{ car.make }} {{ car.model }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=200&h=150&fit=crop&crop=center" alt="{{ car.make }} {{ car.model }}">
+                    {% endif %}
+                    <span class="status-badge {% if car.is_available %}available{% else %}sold{% endif %}">
+                        {% if car.is_available %}Available{% else %}Sold{% endif %}
+                    </span>
+                </div>
+                <div class="car-details">
+                    <h3>{{ car.make }} <span>{{ car.model }}</span></h3>
+                    <div class="car-price">${{ car.price }}</div>
+                    <div class="car-specs">
+                        <span><i class="fas fa-calendar"></i> {{ car.year }}</span>
+                        <span><i class="fas fa-road"></i> {{ car.mileage }} km</span>
+                        <span><i class="fas fa-gas-pump"></i> {{ car.get_fuel_type_display }}</span>
+                    </div>
+                    <div class="seller-name">
+                        <i class="fas fa-user-circle"></i> Seller: {{ car.seller.username }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <form method="POST" id="contactForm" class="contact-form">
+                {% csrf_token %}
+
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">
+                            <i class="fas fa-user"></i> Your Name <span class="required">*</span>
+                        </label>
+                        <input type="text" name="name" id="name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i> Your Email <span class="required">*</span>
+                        </label>
+                        <input type="email" name="email" id="email" placeholder="john@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">
+                        <i class="fas fa-phone"></i> Phone Number
+                    </label>
+                    <input type="tel" name="phone" id="phone" placeholder="+1 234 567 890">
+                </div>
+
+                <div class="form-group">
+                    <label for="message">
+                        <i class="fas fa-comment"></i> Message <span class="required">*</span>
+                    </label>
+                    <textarea name="message" id="message" rows="5" placeholder="I'm interested in your {{ car.make }} {{ car.model }}..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+
+                <a href="{% url 'car_detail' car.id %}" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back to Car Details
+                </a>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/contact_seller.js' %}"></script>
+{% endblock %}

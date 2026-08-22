@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: #f97316;
+            padding: 25px 20px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .header h2 {
+            margin: 0;
+            font-weight: 700;
+        }
+        .content {
+            padding: 30px 25px;
+        }
+        .content p {
+            line-height: 1.6;
+            color: #333333;
+        }
+        .car-details {
+            background: #f9f9f9;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #f97316;
+        }
+        .car-details h3 {
+            margin: 0 0 8px 0;
+            color: #111;
+        }
+        .car-details p {
+            margin: 4px 0;
+            color: #555;
+        }
+        .message-box {
+            background: #f0f0f0;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-style: italic;
+        }
+        .btn {
+            display: inline-block;
+            background: #f97316;
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            margin: 15px 0 5px;
+        }
+        .btn:hover {
+            background: #ea580c;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 12px;
+            border-top: 1px solid #eee;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #111;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>📅 Test Drive Request</h2>
+        </div>
+        <div class="content">
+            <p>Hi <strong>{{ seller.username }}</strong>,</p>
+            <p>
+                <strong>{{ buyer_name }}</strong> ({{ buyer_email }}) has requested a test drive for your car:
+            </p>
+
+            <div class="car-details">
+                <h3>{{ car.make }} {{ car.model }}</h3>
+                <p><strong>Year:</strong> {{ car.year }}</p>
+                <p><strong>Price:</strong> ${{ car.price }}</p>
+                <p><strong>Mileage:</strong> {{ car.mileage }} km</p>
+            </div>
+
+            <p><strong>Preferred Date & Time:</strong></p>
+            <ul>
+                <li><span class="highlight">Date:</span> {{ preferred_date }}</li>
+                <li><span class="highlight">Time:</span> {{ preferred_time }}</li>
+            </ul>
+
+            <p><strong>Additional Message:</strong></p>
+            <div class="message-box">
+                {{ message_text|linebreaks }}
+            </div>
+
+            <p><strong>Phone:</strong> {{ phone|default:"Not provided" }}</p>
+
+            <p style="margin-top: 20px;">
+                <a href="{{ detail_url }}" class="btn">Confirm Test Drive</a>
+            </p>
+
+            <p style="color: #888; font-size: 0.9rem;">
+                If the button doesn't work, copy this link into your browser:<br>
+                {{ detail_url }}
+            </p>
+        </div>
+        <div class="footer">
+            <p>© 2026 CarSales. All rights reserved.</p>
+            <p style="margin: 4px 0;">Your trusted marketplace for used cars.</p>
+        </div>
+    </div>
+</body>
+</html>

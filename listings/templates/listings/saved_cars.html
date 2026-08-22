@@ -1,0 +1,74 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}Saved Cars - CarSales{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/saved_cars.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="saved-page">
+    <div class="container">
+        <div class="saved-header">
+            <h1>Saved <span>Cars</span></h1>
+            <p>Cars you have saved to your wishlist</p>
+        </div>
+
+        {% if saved_cars %}
+            <div class="saved-grid">
+                {% for saved in saved_cars %}
+                <div class="saved-item" data-id="{{ saved.id }}">
+                    <div class="car-card">
+                        <div class="car-image">
+                            {% if saved.car.images.all %}
+                                <img src="{{ saved.car.images.first.image.url }}" alt="{{ saved.car.make }} {{ saved.car.model }}">
+                            {% else %}
+                                <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=250&fit=crop" alt="{{ saved.car.make }} {{ saved.car.model }}">
+                            {% endif %}
+                            <span class="saved-badge">❤️ Saved</span>
+                            <span class="badge status {% if saved.car.is_available %}available{% else %}sold{% endif %}">
+                                {% if saved.car.is_available %}Available{% else %}Sold{% endif %}
+                            </span>
+                        </div>
+                        <div class="car-body">
+                            <h5>{{ saved.car.make }} <span>{{ saved.car.model }}</span></h5>
+                            <p class="specs">
+                                {{ saved.car.year }} • {{ saved.car.mileage }} km • {{ saved.car.get_fuel_type_display }}
+                            </p>
+                            <div class="footer">
+                                <span class="price">${{ saved.car.price }}</span>
+                                <div class="actions">
+                                    <a href="{% url 'car_detail' saved.car.id %}" class="view-link">
+                                        View <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                    <button class="remove-btn" data-id="{{ saved.id }}" data-car="{{ saved.car.id }}">
+                                        <i class="fas fa-times-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="saved-date">
+                                <i class="far fa-clock"></i> Saved on {{ saved.saved_at|date:"M j, Y" }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">❤️</div>
+                <h3>No saved cars yet</h3>
+                <p>Start browsing cars and save your favorites!</p>
+                <a href="{% url 'car_list' %}" class="btn-browse">Browse Cars</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/saved_cars.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,212 @@
+/* ========================================== */
+/*        BASE.CSS – GLOBAL STYLES            */
+/* ========================================== */
+
+/* ---------- 1. CSS Variables ---------- */
+:root {
+    --primary-dark: #0a1628;
+    --secondary-dark: #0f172a;
+    --orange: #f97316;
+    --orange-dark: #ea580c;
+    --orange-darker: #c2410c;
+    --text-light: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --border-color: rgba(255, 255, 255, 0.06);
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- 2. Global Reset ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--primary-dark);
+    color: var(--text-light);
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- 3. NAVBAR ---------- */
+#mainNav {
+    background: rgba(10, 22, 40, 0.95) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.8rem 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+#mainNav.scrolled {
+    background: rgba(10, 22, 40, 0.98) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-light) !important;
+    letter-spacing: -0.5px;
+    transition: color 0.3s ease;
+}
+
+.navbar-brand i {
+    font-size: 1.8rem;
+    color: var(--orange);
+}
+
+.navbar-brand:hover {
+    color: var(--orange) !important;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    position: relative;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.navbar-nav .nav-link i {
+    margin-right: 6px;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--orange);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--text-light) !important;
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after {
+    width: 60%;
+}
+
+.navbar-nav .nav-link.active {
+    color: var(--orange) !important;
+}
+
+.navbar-nav .nav-link.text-warning {
+    color: #fbbf24 !important;
+}
+.navbar-nav .nav-link.text-warning::after {
+    background: #fbbf24;
+}
+
+/* ---------- 4. FOOTER ---------- */
+.footer {
+    margin-top: auto;
+    background: var(--primary-dark);
+    border-top: 1px solid var(--border-color);
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.footer p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.footer a {
+    color: var(--orange);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: var(--text-light);
+}
+
+.footer small {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+}
+
+/* ---------- 5. ALERTS ---------- */
+.alert {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+}
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+}
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+/* ---------- 6. SCROLL-TO-TOP ---------- */
+#scrollTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+    background: var(--orange);
+    color: var(--text-light);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+    transition: all 0.3s ease;
+}
+
+#scrollTopBtn:hover {
+    background: var(--orange-dark);
+    transform: scale(1.1);
+}
+
+/* ---------- 7. RESPONSIVE ---------- */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    .navbar-nav .nav-link {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    .navbar-nav .nav-link::after {
+        display: none;
+    }
+    #mainNav {
+        padding: 0.5rem 0;
+    }
+}

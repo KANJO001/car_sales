@@ -1,0 +1,372 @@
+/* ========================================== */
+/*        CAR_DETAIL.CSS – DARK THEME         */
+/* ========================================== */
+
+.detail-page {
+    background: #0a0a0a;
+    padding: 3rem 0 4rem;
+    min-height: 80vh;
+}
+
+/* ---------- Back Link ---------- */
+.back-link {
+    display: inline-block;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.back-link:hover {
+    color: #f97316;
+    transform: translateX(-4px);
+}
+
+.back-link i {
+    margin-right: 8px;
+}
+
+/* ---------- Grid ---------- */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+/* ---------- Image Gallery ---------- */
+.detail-image {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.detail-image .carousel {
+    height: 100%;
+}
+
+.detail-image .carousel-inner {
+    height: 100%;
+}
+
+.detail-image .carousel-inner .carousel-item {
+    height: 100%;
+}
+
+.detail-image .carousel-inner .carousel-item img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+}
+
+.carousel-control-prev {
+    left: 10px;
+}
+
+.carousel-control-next {
+    right: 10px;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 10px;
+    gap: 5px;
+}
+
+.carousel-indicators button {
+    width: 50px !important;
+    height: 40px !important;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    opacity: 0.7;
+    padding: 0;
+    margin: 0 !important;
+    text-indent: 0 !important;
+}
+
+.carousel-indicators button.active {
+    border-color: #f97316;
+    opacity: 1;
+}
+
+.carousel-indicators button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.featured-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(249,115,22,0.15);
+    color: #f97316;
+    padding: 0.3rem 1rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border: 1px solid rgba(249,115,22,0.2);
+    z-index: 10;
+}
+
+.status-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 0.3rem 1rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    z-index: 10;
+}
+
+.status-badge.available {
+    background: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.2);
+}
+
+.status-badge.sold {
+    background: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+/* ---------- Info ---------- */
+.detail-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 0.3rem;
+}
+
+.detail-title span {
+    color: #f97316;
+}
+
+.detail-price {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #f97316;
+    margin-bottom: 1.2rem;
+}
+
+/* ---------- Specs ---------- */
+.detail-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.spec-item {
+    background: #141414;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.spec-item i {
+    color: #f97316;
+}
+
+/* ---------- Description ---------- */
+.detail-description {
+    color: rgba(255,255,255,0.7);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+/* ---------- Seller ---------- */
+.seller-info {
+    background: #141414;
+    padding: 1.2rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 1.5rem;
+}
+
+.seller-info h5 {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.seller-info h5 i {
+    color: #f97316;
+    margin-right: 8px;
+}
+
+.seller-name {
+    color: #f97316;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.seller-detail {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+}
+
+.seller-detail i {
+    color: #f97316;
+    margin-right: 6px;
+    width: 18px;
+}
+
+/* ---------- Action Buttons ---------- */
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.btn-contact,
+.btn-testdrive,
+.btn-save {
+    padding: 0.8rem 1.8rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    cursor: pointer;
+    flex: 1;
+    justify-content: center;
+}
+
+.btn-contact {
+    background: #f97316;
+    color: #000000;
+}
+
+.btn-contact:hover {
+    background: #ea580c;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(249,115,22,0.3);
+}
+
+.btn-testdrive {
+    background: rgba(255,255,255,0.05);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-testdrive:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+}
+
+.btn-save {
+    background: rgba(255,255,255,0.05);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-save:hover {
+    background: rgba(249,115,22,0.1);
+    border-color: #f97316;
+    color: #f97316;
+}
+
+.btn-save.saved {
+    background: #f97316;
+    color: #000000;
+    border-color: #f97316;
+}
+
+.btn-save.saved:hover {
+    background: #ea580c;
+}
+
+/* ---------- Toast ---------- */
+#customToast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #141414;
+    color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    border-left: 4px solid #f97316;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    z-index: 9999;
+    font-weight: 500;
+    font-size: 1rem;
+    max-width: 400px;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 992px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .detail-image .carousel-inner .carousel-item img {
+        height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .detail-title {
+        font-size: 2rem;
+    }
+    .detail-price {
+        font-size: 1.8rem;
+    }
+    .action-buttons {
+        flex-direction: column;
+    }
+    .btn-contact,
+    .btn-testdrive,
+    .btn-save {
+        width: 100%;
+    }
+    .carousel-indicators button {
+        width: 35px !important;
+        height: 28px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .detail-image .carousel-inner .carousel-item img {
+        height: 200px;
+    }
+    .detail-title {
+        font-size: 1.6rem;
+    }
+    .detail-price {
+        font-size: 1.5rem;
+    }
+    .carousel-indicators button {
+        width: 25px !important;
+        height: 20px !important;
+    }
+}

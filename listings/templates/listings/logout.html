@@ -1,0 +1,29 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}Logged Out - CarSales{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm bg-dark text-white border-0">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h3 class="mb-3">You have been logged out</h3>
+                    <p class="text-muted">Thank you for visiting CarSales. We hope to see you again soon!</p>
+                    <hr class="bg-secondary">
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg w-100">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login Again
+                    </a>
+                    <a href="{% url 'home' %}" class="btn btn-outline-secondary w-100 mt-2">
+                        <i class="fas fa-home me-2"></i> Go to Homepage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

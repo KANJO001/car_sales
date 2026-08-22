@@ -1,0 +1,121 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}{{ car.make }} {{ car.model }} - CarSales{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/car_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="detail-page">
+    <div class="container">
+
+        <!-- ===== BACK LINK ===== -->
+        <a href="{% url 'car_list' %}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Browse
+        </a>
+
+        <div class="detail-grid">
+
+            <!-- ===== CAR IMAGE GALLERY ===== -->
+            <div class="detail-image">
+                {% if car.images.all %}
+                    <div id="carImageCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for image in car.images.all %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ image.image.url }}" alt="{{ car.make }} {{ car.model }}">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if car.images.count > 1 %}
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carImageCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carImageCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                            <div class="carousel-indicators">
+                                {% for image in car.images.all %}
+                                    <button type="button" data-bs-target="#carImageCarousel" data-bs-slide-to="{{ forloop.counter0 }}"
+                                            class="{% if forloop.first %}active{% endif %}">
+                                        <img src="{{ image.image.url }}" alt="Thumbnail">
+                                    </button>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&h=500&fit=crop" alt="{{ car.make }} {{ car.model }}">
+                {% endif %}
+
+                <!-- Badges -->
+                {% if car.is_featured %}
+                    <span class="featured-badge">⭐ Featured</span>
+                {% endif %}
+                <span class="status-badge {% if car.is_available %}available{% else %}sold{% endif %}">
+                    {% if car.is_available %}Available{% else %}Sold{% endif %}
+                </span>
+            </div>
+
+            <!-- ===== CAR INFO ===== -->
+            <div class="detail-info">
+                <h1 class="detail-title">
+                    {{ car.make }} <span>{{ car.model }}</span>
+                </h1>
+
+                <div class="detail-price">
+                    ${{ car.price }}
+                </div>
+
+                <!-- Specs -->
+                <div class="detail-specs">
+                    <span class="spec-item"><i class="fas fa-calendar"></i> {{ car.year }}</span>
+                    <span class="spec-item"><i class="fas fa-road"></i> {{ car.mileage }} km</span>
+                    <span class="spec-item"><i class="fas fa-gas-pump"></i> {{ car.get_fuel_type_display }}</span>
+                    <span class="spec-item"><i class="fas fa-cog"></i> {{ car.get_transmission_display }}</span>
+                    <span class="spec-item"><i class="fas fa-car"></i> {{ car.get_body_type_display }}</span>
+                </div>
+
+                <!-- Description -->
+                <div class="detail-description">
+                    {{ car.description|linebreaks }}
+                </div>
+
+                <!-- Seller Info -->
+                <div class="seller-info">
+                    <h5><i class="fas fa-user-circle"></i> Seller</h5>
+                    <p class="seller-name">{{ car.seller.username }}</p>
+                    <p class="seller-detail">
+                        <i class="fas fa-clock"></i> Listed on {{ car.created_at|date:"F j, Y" }}
+                    </p>
+                    <p class="seller-detail">
+                        <i class="fas fa-tag"></i> Listing #{{ car.id }}
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="{% url 'contact_seller' car.id %}" class="btn-contact">
+                        <i class="fas fa-envelope"></i> Contact Seller
+                    </a>
+                    <a href="{% url 'test_drive' car.id %}" class="btn-testdrive">
+                        <i class="fas fa-calendar-check"></i> Test Drive
+                    </a>
+                    <a href="{% url 'save_car' car.id %}" class="btn-save" id="saveBtn">
+                        <i class="fas fa-heart"></i> Save
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/car_detail.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,409 @@
+{% extends 'listings/base.html' %}
+{% load static %}
+
+{% block title %}Home - CarSales{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <style>
+        /* ========================================== */
+        /* HERO SECTION WITH VIDEO BACKGROUND         */
+        /* ========================================== */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: #000;
+            padding: 4rem 0;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 2;
+        }
+
+        .hero-container {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: #ffffff;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #f97316;
+            background: rgba(249, 115, 22, 0.12);
+            padding: 0.3rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(249, 115, 22, 0.15);
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-model {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-model span {
+            color: #f97316;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn-start {
+            display: inline-block;
+            padding: 0.9rem 3rem;
+            background: #f97316;
+            color: #000000;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-start:hover {
+            background: #ea580c;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.3);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 2rem;
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .spec-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 700;
+        }
+
+        .spec-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* ========================================== */
+        /* FEATURED CARS SECTION                     */
+        /* ========================================== */
+        .featured-section {
+            background: #0a0a0a;
+            padding: 4rem 0;
+        }
+
+        .featured-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #f97316;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-label span {
+            width: 30px;
+            height: 2px;
+            background: #f97316;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .section-header h2 span {
+            color: #f97316;
+        }
+
+        .section-header p {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 1.1rem;
+        }
+
+        .car-card {
+            background: #141414;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            height: 100%;
+        }
+
+        .car-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(249, 115, 22, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        .car-image {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: #1a1a1a;
+        }
+
+        .car-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .car-card:hover .car-image img {
+            transform: scale(1.05);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(249, 115, 22, 0.15);
+            color: #f97316;
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            border: 1px solid rgba(249, 115, 22, 0.15);
+            z-index: 10;
+        }
+
+        .car-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.05);
+            background: #1a1a1a;
+        }
+
+        .car-card-body {
+            padding: 1.2rem 1.5rem 1.5rem;
+        }
+
+        .car-card-body h5 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-bottom: 0.2rem;
+        }
+
+        .car-card-body h5 span {
+            color: #f97316;
+        }
+
+        .car-card-body p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .car-price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #f97316;
+            margin-bottom: 0.8rem;
+        }
+
+        .btn-view {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0.3rem 1rem;
+            background: rgba(249, 115, 22, 0.08);
+            color: #f97316;
+            border: 1px solid rgba(249, 115, 22, 0.1);
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view:hover {
+            background: #f97316;
+            color: #000000;
+            border-color: #f97316;
+            transform: translateX(4px);
+        }
+
+        .btn-view i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-view:hover i {
+            transform: translateX(4px);
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 992px) {
+            .hero-model {
+                font-size: 3.5rem;
+            }
+            .specs-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-model {
+                font-size: 2.5rem;
+            }
+            .hero-description {
+                font-size: 1rem;
+            }
+            .specs-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            .car-image {
+                height: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-model {
+                font-size: 1.8rem;
+            }
+            .btn-start {
+                padding: 0.7rem 2rem;
+                font-size: 0.95rem;
+            }
+            .hero-tag {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.8rem;
+            }
+            .section-header h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ========================================== -->
+<!-- HERO SECTION – VIDEO BACKGROUND            -->
+<!-- ========================================== -->
+<section class="hero-section">
+    <!-- Video Background -->
+    <video autoplay muted loop playsinline class="hero-video">
+        <source src="/media/videos/CAR.mp4" type="video/mp4">
+        <!-- Fallback Image -->
+        <img src="https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=1600&h=900&fit=crop" alt="Luxury Car">
+    </video>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-container">
+        <div class="hero-content">
+            <h1 class="hero-model">KANJO <span>DRIVE</span></h1>
+            <p class="hero-description">
+                Experience unmatched performance and cutting-edge design with the Hero AR Ultimate.
+                Crafted for those who demand more from their drive.
+            </p>
+            <a href="{% url 'car_list' %}" class="btn-start">Start Your Journey →</a>
+
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <span class="spec-label">NAME</span>
+                    <span class="spec-value">Hero AR Ultimate</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">PERFORMANCE</span>
+                    <span class="spec-value">2023 – 24</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">STARTING PRICE</span>
+                    <span class="spec-value">$50,000</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">ENGINE</span>
+                    <span class="spec-value">V8 Turbo + Direct Injection</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========================================== -->
+<!-- FEATURED CARS SECTION (Dynamic)            -->
+<!-- ========================================== -->
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
